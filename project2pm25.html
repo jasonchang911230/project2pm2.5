@@ -4,10 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <div class="airmap-widget">
-        <widget-text group="LASS-Airbox" uuid="74DA38E69D1C"></widget-text>
-    </div>
-    <script src="https://widget.airmap.g0v.tw/js/airmap-widget.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://data.epa.gov.tw/api/v2/aqx_p_432?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON',
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log()
+                        $.each(response.records[35], function (index, element) {
+                            console.log(element)
+                            //$.each(element, function (index, element1) {
+                            $('.info').append(
+                                $('<p>',
+                                    { text: element }),
+                                $('<p>')
+
+                            )
+                            //console.log(index)
+                        }
+                        )
+
+                        //})
+                    }
+                })
+            });
+        });
+    </script>
 </head>
+
+<body>
+    <button>Get</button>
+    <p class="info"></p>
+    <script type="text/javascript"></script>
+</body>
 
 </html>
