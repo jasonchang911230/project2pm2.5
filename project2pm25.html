@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>pm2.5</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="color.css">
     <script>
         $(document).ready(function () {
             $("button").click(function () {
@@ -13,31 +14,61 @@
                     url: 'https://data.epa.gov.tw/api/v2/aqx_p_432?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON',
                     dataType: 'json',
                     success: function (response) {
-                        //console.log()
-                        $.each(response.records[35], function (index, element) {
-                            console.log(element)
-                            //$.each(element, function (index, element1) {
-                            $('.info').append(
-                                $('<p>',
-                                    { text: element }),
-                                $('<p>')
+                        //console.log(response.records[35].county)
+                        $('.info').append(
 
-                            )
-                            //console.log(index)
-                        }
+                            $('<p>',
+                                { text: response.records[35].county }),
+                            $('<p>',
+                                { text: response.records[35].sitename }),
+                            $('<p>',
+                                { text: response.records[35]["pm2.5"] }),
+                            $('<p>')
+
                         )
+                        var pm25 = response.records[35]["pm2.5"]
+                        //var pm25 = 400
 
-                        //})
+                        if (pm25 <= 50) {
+                            $('.circle').addClass("green")
+                        } else if (pm25 <= 100) {
+                            $('.circle').addClass("yellow")
+                        } else if (pm25 <= 150) {
+                            $('.circle').addClass("orange")
+                        } else if (pm25 <= 200) {
+                            $('.circle').addClass("red")
+                        } else if (pm25 <= 300) {
+                            $('.circle').addClass("purple")
+                        } else {
+                            $('.circle').addClass("brown")
+                        }
+
+
+
+                        //$.each(response.records[35], function (index, element) {
+                        //console.log(response.records[35].county)
+
+                        //$.each(element, function (index, element1) {
+
+                        //console.log(index)
                     }
+                    //)
+
+                    //})
+                    //}
                 })
             });
         });
+
+
     </script>
 </head>
 
 <body>
     <button>Get</button>
     <p class="info"></p>
+    <div class="circle">
+    </div>
     <script type="text/javascript"></script>
 </body>
 
