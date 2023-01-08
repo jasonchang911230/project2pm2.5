@@ -8,12 +8,49 @@
     <link rel="stylesheet" href="color.css">
     <script>
         $(document).ready(function () {
+            //var keyword = "南投";
+            //var api = 'https://data.epa.gov.tw/api/v2/aqx_p_432?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON';
+
             $.ajax({
                 type: 'GET',
                 url: 'https://data.epa.gov.tw/api/v2/aqx_p_432?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON',
                 dataType: 'json',
                 success: function (response) {
-                    //console.log(response.records[35].county)
+                    for (var i = 0; i < response.records.length; i++) {
+                        if (response.records[i].sitename == "南投") {
+                            console.log(response.records[i]["sitename"]);
+                            console.log(response.records[i]["pm2.5"]);
+                            $('.info').append(
+                                $('<p>',
+                                    { text: response.records[i]["pm2.5"] })
+
+                            )
+                            var pm25 = response.records[i]["pm2.5"]
+                            //var pm25 = 400
+
+                            if (pm25 <= 50) {
+                                $('.circle').addClass("green")
+                            } else if (pm25 <= 100) {
+                                $('.circle').addClass("yellow")
+                            } else if (pm25 <= 150) {
+                                $('.circle').addClass("orange")
+                            } else if (pm25 <= 200) {
+                                $('.circle').addClass("red")
+                            } else if (pm25 <= 300) {
+                                $('.circle').addClass("purple")
+                            } else {
+                                $('.circle').addClass("brown")
+                            }
+
+                            break;
+                        }
+                    }
+
+
+
+
+
+                    /*console.log(response.records[35].county)
                     $('.info').append(
                         $('<p>',
                             { text: response.records[35]["pm2.5"] })
@@ -34,7 +71,7 @@
                         $('.circle').addClass("purple")
                     } else {
                         $('.circle').addClass("brown")
-                    }
+                    }*/
 
                     //$.each(response.records[35], function (index, element) {
                     //console.log(response.records[35].county)
